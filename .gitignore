@@ -15,6 +15,8 @@
 
 # Mono auto generated files
 mono_crash.*
+DS_store
+node_modules
 
 # Build results
 [Dd]ebug/
