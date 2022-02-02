@@ -31,13 +31,17 @@ function showOptions(){
             if (answers.options =='view all departments'){
                 viewDepartments()
             }
+            if (answers.options=='view all roles'){
+                viewRoles()
+            }
+            
         });  
 }
 //only if we are connected the function runs
 connection.connect((err)=>{
 if (err) throw err
     showOptions();
-})
+});
 
 
 //view all departments - READ METHODS 
@@ -48,9 +52,17 @@ function viewDepartments(){
      console.table(results) 
      showOptions() 
  })   
-}
+};
 
 //view all roles
+
+function viewRoles(){
+    connection.query('SELECT * FROM role', function (err, results){
+        if (err) throw err
+        console.table(results)
+        showOptions() 
+    })
+};
 
 
 //view all employees
