@@ -34,6 +34,9 @@ function showOptions(){
             if (answers.options=='view all roles'){
                 viewRoles()
             }
+            if(answers.option=='view all employees'){
+                viewEmployees()
+            }
             
         });  
 }
@@ -66,6 +69,14 @@ function viewRoles(){
 
 
 //view all employees
+
+function viewEmployees(){
+    connection.query('SELECT * FROM employee', function (err, results) {
+        if (err) throw err
+        console.table(results)
+        showOptions()
+    })
+};
 
 
 //Add a department  - CREATE METHOD
