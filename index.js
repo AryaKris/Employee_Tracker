@@ -13,12 +13,11 @@ const options =[
             "view all departments",
             "view all roles",
             "view all employees",
-            "view all employees by department",
-            "view all employees by manager",
-            "add employee",
-            "remove employee",
-            "update employee role",
-            "update employee manager"
+            "add a department",
+            "add a role",
+            "add an employee",
+            "update an employee role",
+            
         ]
     }
 ];
@@ -36,6 +35,9 @@ function showOptions(){
             }
             if(answers.option=='view all employees'){
                 viewEmployees()
+            }
+            if (answers.options=='add a department'){
+                addDepartment()
             }
             
         });  
@@ -80,6 +82,14 @@ function viewEmployees(){
 
 
 //Add a department  - CREATE METHOD
+function addDepartment(){
+    connection.query('INSERT INTO department(id,name)', function (err, results){
+        if (err) throw err
+        console.table(results)
+        showOptions()
+
+    } )
+}
 
 
 // Add a role 
