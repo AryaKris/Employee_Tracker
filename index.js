@@ -95,17 +95,17 @@ function addDepartment(){
         .then((answers) => {
             
             console.log(answers);
+            const sql = `INSERT INTO department (name)
+                  VALUES (?)`;
+            connection.query(sql, answers.department, (err, result) => {
+                if (err) throw err;
+                console.log('Added ' + answers.department + " to departments!"); 
+
+                viewDepartments();
             
         });
-    // get the value provided by the user
-        // save this to a variable
-        // use that variable instead of {name:"Manager"}
-
-        connection.query('INSERT INTO department SET ? ',{name:"answers"}, function (err, results){
-        if (err) throw err
-        console.table(results)
-        showOptions()
-
+    
+        
   
     
 
