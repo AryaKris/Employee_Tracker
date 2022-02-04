@@ -33,7 +33,7 @@ function showOptions(){
             if (answers.options=='view all roles'){
                 viewRoles()
             }
-            if(answers.option=='view all employees'){
+            if(answers.options=='view all employees'){
                 viewEmployees()
             }
             if (answers.options=='add a department'){
@@ -81,12 +81,33 @@ function viewEmployees(){
 };
 
 
-//Add a department  - CREATE METHOD
+//CREATE DEPARTMENT
+
+const questions = [{
+    type: 'input',
+    message: 'Which department would you like to add?',
+    name: 'department'
+}]
 function addDepartment(){
-    connection.query('INSERT INTO department(id,name)', function (err, results){
+    // call prompt here
+    inquirer
+        .prompt(questions)
+        .then((answers) => {
+            
+            console.log(answers);
+            
+        });
+    // get the value provided by the user
+        // save this to a variable
+        // use that variable instead of {name:"Manager"}
+
+        connection.query('INSERT INTO department SET ? ',{name:"answers"}, function (err, results){
         if (err) throw err
         console.table(results)
         showOptions()
+
+  
+    
 
     } )
 }
@@ -94,7 +115,8 @@ function addDepartment(){
 
 // Add a role 
 
-    //SELECT the exisiting roles out for the 'roles' table
+
+    //SELECT the exisiting roles out from the department table. We will be presented with an array of objects 
 
 
     //.map() the results from 'roles' to question data for inquirer
