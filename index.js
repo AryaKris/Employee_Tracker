@@ -92,28 +92,21 @@ function addDepartment(){
     // call prompt here
     inquirer
         .prompt(questions)
-        .then((answers) => {
-            
+        .then((answers) => {            
             console.log(answers);
             const sql = `INSERT INTO department (name)
                   VALUES (?)`;
             connection.query(sql, answers.department, (err, result) => {
                 if (err) throw err;
                 console.log('Added ' + answers.department + " to departments!"); 
-
-                viewDepartments();
-            
+                viewDepartments();            
         });
-    
-        
-  
-    
-
-    } )
+    })
 }
 
-
-// Add a role 
+const sql = `INSERT INTO role (id, title, salary,department_id)
+                  VALUES (?)`;
+// CREATE A NEW ROLE
 
 
     //SELECT the exisiting roles out from the department table. We will be presented with an array of objects 
