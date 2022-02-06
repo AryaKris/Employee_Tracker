@@ -4,7 +4,7 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const connection = require('./db/connection.js');
-const options =[
+const options = [
     {
         type: "list",
         name: "options",
@@ -17,62 +17,65 @@ const options =[
             "add a role",
             "add an employee",
             "update an employee role",
-            
+
         ]
     }
 ];
 
-function showOptions(){
+function showOptions() {
     inquirer
         .prompt(options)
         .then((answers) => {
-           console.log(answers);
-            if (answers.options =='view all departments'){
+            console.log(answers);
+            if (answers.options == 'view all departments') {
                 viewDepartments()
             }
-            if (answers.options=='view all roles'){
+            if (answers.options == 'view all roles') {
                 viewRoles()
             }
-            if(answers.options=='view all employees'){
+            if (answers.options == 'view all employees') {
                 viewEmployees()
             }
-            if (answers.options=='add a department'){
+            if (answers.options == 'add a department') {
                 addDepartment()
             }
-            
-        });  
+            if (answers.options == 'add a role') {
+                addRole()
+            }
+
+        });
 }
 //only if we are connected the function runs
-connection.connect((err)=>{
-if (err) throw err
+connection.connect((err) => {
+    if (err) throw err
     showOptions();
 });
 
 
 //view all departments - READ METHODS 
-function viewDepartments(){
+function viewDepartments() {
     //add connection.query
- connection.query('SELECT * FROM department', function(err,results){
-     if (err) throw err
-     console.table(results) 
-     showOptions() 
- })   
+    connection.query('SELECT * FROM department', function (err, results) {
+        if (err) throw err
+        console.table(results)
+        showOptions()
+    })
 };
 
 //view all roles
 
-function viewRoles(){
-    connection.query('SELECT * FROM role', function (err, results){
+function viewRoles() {
+    connection.query('SELECT * FROM role', function (err, results) {
         if (err) throw err
         console.table(results)
-        showOptions() 
+        showOptions()
     })
 };
 
 
 //view all employees
 
-function viewEmployees(){
+function viewEmployees() {
     connection.query('SELECT * FROM employee', function (err, results) {
         if (err) throw err
         console.table(results)
@@ -88,25 +91,66 @@ const questions = [{
     message: 'Which department would you like to add?',
     name: 'department'
 }]
-function addDepartment(){
+function addDepartment() {
     // call prompt here
     inquirer
         .prompt(questions)
-        .then((answers) => {            
+        .then((answers) => {
             console.log(answers);
-            const sql = `INSERT INTO department (name)
-                  VALUES (?)`;
-            connection.query(sql, answers.department, (err, result) => {
+
+            connection.query(`INSERT INTO department (name) VALUES (?)`, answers.department, (err, result) => {
                 if (err) throw err;
-                console.log('Added ' + answers.department + " to departments!"); 
-                viewDepartments();            
-        });
-    })
+                console.log('Added ' + answers.department + " to departments!");
+                viewDepartments();
+            });
+        })
 }
 
 const sql = `INSERT INTO role (id, title, salary,department_id)
                   VALUES (?)`;
 // CREATE A NEW ROLE
+const roleQuestions = [{
+    type: 'input',
+    message: 'Which role would you like to add?',
+    name: 'title'
+},
+{
+    type: 'input',
+    message: 'What is the salary for this role?',
+    name: 'salary'
+},
+{
+    type: 'input',
+    message: 'Which department does this role belongs to?',
+    name: 'departmentName'
+}
+
+]
+function addRole() {
+    inquirer
+        .prompt(roleQuestions)
+        .then((answers) => {
+            // take each of the values from the answers varaible and put it into a variable
+            const title = answers.title;
+            const salary = answers.salary;
+            
+            connection.query(`SELECT id FROM department WHERE name = ?`, answers.departmentName, (err, result) => {
+                if (err) {
+                    connection.end();
+                    return console.error(err.message);
+                }
+                console.log("test: ", result[0].id);
+                dId = result[0].id;
+                connection.query(`INSERT INTO role (title, salary,department_id) VALUES (?,?,?)`, [answers.title, answers.salary, dId], (err, result) => {
+                    if (err) {
+                        connection.end();
+                        return console.error(err.message);
+                    }
+                    viewRoles();
+                });
+            });
+        });
+}
 
 
     //SELECT the exisiting roles out from the department table. We will be presented with an array of objects 
