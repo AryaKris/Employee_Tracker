@@ -24,7 +24,7 @@ Schema contains 3 Tables - department, role and employee. Inorder to perform the
 ## Link to the application - 
 https://watch.screencastify.com/v/msNkJcEvu3MWLPS5nKmo
 
-![AryaKris Employee Tracker](assets/Screen Shot 2022-02-07 at 00.11.20.png)
+![AryaKris Employee Tracker](https://github.com/AryaKris/Employee_Tracker/blob/main/assets/Screen%20Shot%202022-02-07%20at%2000.11.20.png)
 
 ## Contributing
 Please follow the fork and pull Git workflow. 
