@@ -241,6 +241,9 @@ function addEmployee() {
         });
 }
 
+//update an employee
+
+
 function updateEmployee() {
     connection.query('SELECT first_name, last_name FROM employee', function (err, results) {
         if (err) {
@@ -293,8 +296,7 @@ function updateEmployee() {
     })
 }
 
-//update an employee
-
+//Exit application
 function closeAll() {
     connection.end();
     process.exit()
