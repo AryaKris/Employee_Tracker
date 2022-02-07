@@ -10,4 +10,6 @@ Used the MySQL2 package to connect to the MYSQL database and inquirer package to
 
 Schema contains 3 Tables - department, role and employee. Inorder to perform the SQL queries index.js has been created. And to prepopulate the database, seeds.sql is used. 
 
+## Link to the application - https://watch.screencastify.com/v/msNkJcEvu3MWLPS5nKmo
+
 
