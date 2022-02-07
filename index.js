@@ -54,9 +54,9 @@ function showOptions() {
             }
             else if (answers.options == 'exit') {
                 closeAll()
-                
+
             }
-            else if (answers.option == 'update an employee'){
+            else if (answers.options == 'update an employee') {
                 updateEmployee()
             }
         });
@@ -181,7 +181,7 @@ function addRole() {
 }
 
 //Add an employee
-// Change the queries for employee the way you want.
+
 function addEmployee() {
     const employeeQuestions = [{
         type: 'input',
@@ -231,25 +231,73 @@ function addEmployee() {
                 connection.query(`INSERT INTO employee (first_name, last_name,role_id,manager_id) 
                 VALUES (?,?,(SELECT id FROM role WHERE title = ?),?)`,
                     [answers.firstName, answers.lastName, employeeRole, mId], (err, result) => {
-                    if (err) {
-                        connection.end();
-                        return console.error(err.message);
-                    }
-                    viewEmployees();
-                });
+                        if (err) {
+                            connection.end();
+                            return console.error(err.message);
+                        }
+                        viewEmployees();
+                    });
             });
         });
 }
 
+function updateEmployee() {
+    connection.query('SELECT first_name, last_name FROM employee', function (err, results) {
+        if (err) {
+            connection.end();
+            return console.error(err.message);
+        }
 
-    function closeAll(){
+        var choiceList = [];
+        for (let i = 0; i < results.length; i++) {
+            choiceList = results[i].first_name + " " + results[i].last_mame
+        }
+
+        var name = []
+
+        var listNames = [
+            {
+                type: "list",
+                name: "listNames",
+                message: "Which employee would you like to update? ",
+                choices: [
+                    "James Mathew",
+                    "Aneeta Joseph",
+                    "Crystal Hudson"
+                ]
+            },
+            {
+                type: 'input',
+                message: 'Please enter the role you want to update',
+                name: 'rolename'
+            }
+
+        ];
+        inquirer
+            .prompt(listNames)
+            .then((answers) => {
+                const roleName = answers.rolename
+                name = answers.listNames.split(" ")
+
+                connection.query(`UPDATE employees_db.employee SET role_id = (select id from role where title = ?) WHERE first_name = ? and last_name = ?;`, [], (err, result) => {
+                    if (err) {
+                        connection.end();
+                        return console.error(err.message);
+                    }
+                    console.log('Added ' + answers.department + " to departments!");
+                    viewDepartments();
+                });
+                
+            })
+
+    })
+}
+
+//update an employee
+
+function closeAll() {
     connection.end();
     process.exit()
 }
 
 
-
-
-
-
-//Delete an employee
